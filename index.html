@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InvitaMe — Pilih Design AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body class="bg-zinc-50 min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="max-w-5xl w-full">
+    <div class="text-center mb-12">
+      <div class="w-14 h-14 mx-auto bg-rose-400 rounded-2xl flex items-center justify-center mb-4">
+        <i class="fa-solid fa-wand-magic-sparkles text-white text-2xl"></i>
+      </div>
+      <h1 class="text-4xl font-bold text-zinc-900 tracking-tight">InvitaMe</h1>
+      <p class="text-zinc-500 mt-2 text-lg">Pilih design AI yang kamu suka</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Groq -->
+      <a href="groq.html" class="card-hover bg-white rounded-3xl overflow-hidden border border-zinc-200 shadow-sm block group">
+        <div class="relative h-52 bg-gradient-to-br from-rose-100 to-amber-50 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #B76E79 0px, #B76E79 2px, transparent 2px, transparent 8px)"></div>
+          <div class="text-center relative z-10">
+            <div class="w-16 h-16 mx-auto bg-[#B76E79] rounded-2xl flex items-center justify-center mb-3 shadow-lg shadow-rose-200/50">
+              <i class="fa-brands fa-connectdevelop text-white text-3xl"></i>
+            </div>
+            <span class="text-xs font-semibold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">GROQ</span>
+          </div>
+          <span class="badge">Tailwind</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg text-zinc-900">Classic Elegance</h3>
+          <p class="text-sm text-zinc-500 mt-1">Desain elegan dengan nuansa rose gold — dibangun dengan Tailwind CSS</p>
+          <div class="mt-4 flex items-center gap-2 text-sm text-rose-500 font-medium group-hover:gap-3 transition-all">
+            <span>Lihat Design</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- GPT -->
+      <a href="gpt.html" class="card-hover bg-white rounded-3xl overflow-hidden border border-zinc-200 shadow-sm block group">
+        <div class="relative h-52 bg-gradient-to-br from-stone-100 to-amber-50 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5%22 fill=%22none%22 stroke=%22%238B5E3C%22 stroke-width=%221%22/></svg>'); background-size: 60px;"></div>
+          <div class="text-center relative z-10">
+            <div class="w-16 h-16 mx-auto bg-amber-700 rounded-2xl flex items-center justify-center mb-3 shadow-lg shadow-amber-200/50">
+              <i class="fa-brands fa-css3-alt text-white text-3xl"></i>
+            </div>
+            <span class="text-xs font-semibold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">GPT</span>
+          </div>
+          <span class="badge">CSS Murni</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg text-zinc-900">Earthy Classic</h3>
+          <p class="text-sm text-zinc-500 mt-1">Gaya earthy dengan warna coklat hangat — CSS murni tanpa framework</p>
+          <div class="mt-4 flex items-center gap-2 text-sm text-amber-700 font-medium group-hover:gap-3 transition-all">
+            <span>Lihat Design</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Gemini -->
+      <a href="gemini.html" class="card-hover bg-white rounded-3xl overflow-hidden border border-zinc-200 shadow-sm block group">
+        <div class="relative h-52 bg-gradient-to-br from-rose-50 to-pink-50 flex items-center justify-center overflow-hidden">
+          <div class="absolute inset-0 opacity-[0.04]">
+            <svg viewBox="0 0 100 100" class="w-full h-full"><circle cx="20" cy="20" r="2" fill="%23f43f5e"/><circle cx="80" cy="40" r="1.5" fill="%23f43f5e"/><circle cx="40" cy="80" r="2.5" fill="%23f43f5e"/><circle cx="70" cy="80" r="1" fill="%23f43f5e"/></svg>
+          </div>
+          <div class="text-center relative z-10">
+            <div class="w-16 h-16 mx-auto bg-rose-500 rounded-2xl flex items-center justify-center mb-3 shadow-lg shadow-rose-200/50">
+              <i class="fa-solid fa-brain text-white text-3xl"></i>
+            </div>
+            <span class="text-xs font-semibold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">GEMINI</span>
+          </div>
+          <span class="badge">Tailwind v4</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg text-zinc-900">Modern Rose</h3>
+          <p class="text-sm text-zinc-500 mt-1">Tampilan modern dengan aksen rose pink — Tailwind CSS v4 + multi-view</p>
+          <div class="mt-4 flex items-center gap-2 text-sm text-rose-500 font-medium group-hover:gap-3 transition-all">
+            <span>Lihat Design</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="mt-10 text-center text-xs text-zinc-400">
+      3 design &mdash; 3 AI model berbeda &mdash; 1 brand: InvitaMe
+    </div>
+  </div>
+</body>
+</html>

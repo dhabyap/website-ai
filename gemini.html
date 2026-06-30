@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvitaMe - Generator Undangan Digital Self-Service</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- AI Switcher -->
+    <div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:6px 16px;display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+            <a href="index.html" style="font-weight:600;color:#555;text-decoration:none;">
+                <i class="fa-solid fa-arrow-left" style="margin-right:4px;"></i>InvitaMe
+            </a>
+            <span style="color:#ccc;">|</span>
+            <span style="color:#999;">Pilih AI:</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;">
+            <a href="groq.html" style="padding:4px 12px;border-radius:8px;color:#555;text-decoration:none;font-weight:500;">GROQ</a>
+            <a href="gpt.html" style="padding:4px 12px;border-radius:8px;color:#555;text-decoration:none;font-weight:500;">GPT</a>
+            <a href="gemini.html" style="padding:4px 12px;border-radius:8px;background:#f43f5e;color:white;text-decoration:none;font-weight:500;">GEMINI</a>
+        </div>
+    </div>
+
+    <nav id="main-nav" class="bg-white shadow-sm sticky top-0 z-50" style="margin-top:36px;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('landing')">
+                    <i class="fa-solid fa-wand-magic-sparkles text-rose-500 text-2xl"></i>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">InvitaMe</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
+                    <a href="#fitur" class="hover:text-rose-500 transition">Fitur</a>
+                    <a href="#pricing" class="hover:text-rose-500 transition">Harga</a>
+                    <a href="#testimoni" class="hover:text-rose-500 transition">Testimoni</a>
+                </div>
+                <div class="flex space-x-3" id="nav-auth-buttons">
+                    <button onclick="navigateTo('auth')" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-rose-500 transition">Masuk</button>
+                    <button onclick="navigateTo('auth')" class="px-4 py-2 text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 rounded-lg shadow-sm transition">Daftar Gratis</button>
+                </div>
+                <div class="flex space-x-3 hidden" id="nav-dashboard-buttons">
+                    <button onclick="navigateTo('dashboard')" class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-rose-500 flex items-center gap-2"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+                    <button onclick="logout()" class="px-4 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition">Keluar</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="view-landing" class="view active">
+        <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <span class="px-3 py-1 text-xs font-semibold text-rose-600 bg-rose-50 rounded-full uppercase tracking-wider">Platform Undangan No-Code</span>
+            <h1 class="mt-4 text-4xl sm:text-6xl font-extrabold text-gray-900 tracking-tight leading-none">
+                Buat Undangan Digital<br><span class="text-rose-500">Selesai dalam 10 Menit</span>
+            </h1>
+            <p class="mt-6 text-lg text-gray-500 max-w-2xl mx-auto">
+                Platform self-service terbaik untuk merancang undangan pernikahan, ulang tahun, dan khitanan secara mandiri. Isi formulir, pilih template, dan sebarkan langsung ke para tamu.
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <button onclick="startCreating()" class="px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                    Mulai Buat Sekarang <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </header>
+
+        <section id="fitur" class="bg-white py-20 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-950">Mengapa Memilih InvitaMe?</h2>
+                    <p class="text-gray-500 mt-2">Segala kemudahan dalam satu dasbor terintegrasi.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bolt"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Instan & Tanpa Coding</h3>
+                        <p class="text-gray-500 text-sm">Cukup isi data acara pada formulir terstruktur, sistem kami akan langsung menyusun halaman undangan Anda.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Template Mobile-First</h3>
+                        <p class="text-gray-500 text-sm">Desain premium yang responsif dan dioptimalkan khusus untuk perangkat mobile/smartphone.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-envelope-open-text"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Manajemen RSVP Real-time</h3>
+                        <p class="text-gray-500 text-sm">Pantau konfirmasi kehadiran dari tamu undangan secara langsung melalui dasbor monitoring.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-gray-950 mb-12">Pilihan Paket Transparan</h2>
+                <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-left relative overflow-hidden">
+                        <h3 class="text-xl font-bold mb-2">Free Starter</h3>
+                        <p class="text-gray-400 text-sm mb-6">Cocok untuk mencoba fitur dasar.</p>
+                        <div class="text-3xl font-black mb-6">Rp 0 <span class="text-sm font-normal text-gray-400">/ selamanya</span></div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 3 Template Dasar</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Integrasi Google Maps</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Fitur RSVP Maks. 20 Tamu</li>
+                        </ul>
+                        <button onclick="startCreating()" class="w-full py-3 bg-gray-100 hover:bg-gray-200 font-medium rounded-xl transition text-center">Mulai Gratis</button>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-md border-2 border-rose-500 text-left relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-rose-500 text-white text-xs px-3 py-1 font-semibold rounded-bl-lg uppercase">Populer</div>
+                        <h3 class="text-xl font-bold mb-2">Premium Pro</h3>
+                        <p class="text-gray-400 text-sm mb-6">Untuk pengalaman acara yang mewah.</p>
+                        <div class="text-3xl font-black mb-6">Rp 149.000 <span class="text-sm font-normal text-gray-400">/ acara</span></div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li><i class="fa-solid fa-check text-rose-500 mr-2"></i> Semua Template Premium</li>
+                            <li><i class="fa-solid fa-check text-rose-500 mr-2"></i> RSVP Tanpa Batas</li>
+                            <li><i class="fa-solid fa-check text-rose-500 mr-2"></i> Galeri Foto & Musik Latar</li>
+                            <li><i class="fa-solid fa-check text-rose-500 mr-2"></i> Bebas Watermark</li>
+                        </ul>
+                        <button onclick="startCreating()" class="w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-xl shadow-sm transition text-center">Pilih Premium</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="view-auth" class="view py-20">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold" id="auth-title">Masuk ke Akun Anda</h2>
+                <p class="text-sm text-gray-400 mt-1" id="auth-subtitle">Gunakan email terdaftar untuk mengelola undangan.</p>
+            </div>
+            <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">ALAMAT EMAIL</label>
+                    <input type="email" id="auth-email" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="nama@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">PASSWORD</label>
+                    <input type="password" id="auth-password" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-xl shadow-sm transition">Lanjutkan</button>
+            </form>
+            <div class="relative flex py-5 items-center">
+                <div class="flex-grow border-t border-gray-200"></div>
+                <span class="flex-shrink mx-4 text-gray-400 text-xs uppercase">Atau masuk dengan</span>
+                <div class="flex-grow border-t border-gray-200"></div>
+            </div>
+            <button onclick="mockGoogleAuth()" class="w-full py-3 border border-gray-200 hover:bg-gray-50 font-medium rounded-xl transition flex items-center justify-center gap-2">
+                <i class="fa-brands fa-google text-red-500"></i> Google Account
+            </button>
+            <p class="text-center text-xs text-gray-500 mt-6" id="auth-toggle-text">
+                Belum punya akun? <a href="#" onclick="toggleAuthMode(false)" class="text-rose-500 font-semibold">Daftar sekarang</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">Dasbor Undangan</h1>
+                <p class="text-sm text-gray-500">Kelola publikasi aktivitas dan pantau konfirmasi RSVP.</p>
+            </div>
+            <button onclick="navigateTo('editor')" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-medium rounded-lg shadow transition flex items-center gap-2">
+                <i class="fa-solid fa-plus"></i> Buat Undangan Baru
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase">Total Undangan</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-1" id="stat-total-invitation">1</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-invoice"></i></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase">Tamu Hadir (RSVP)</p>
+                    <p class="text-2xl font-bold text-green-600 mt-1" id="stat-total-rsvp-hadir">0</p>
+                </div>
+                <div class="w-12 h-12 bg-green-50 text-green-500 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-check"></i></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase">Tamu Absen / Ragu</p>
+                    <p class="text-2xl font-bold text-gray-500 mt-1" id="stat-total-rsvp-absen">0</p>
+                </div>
+                <div class="w-12 h-12 bg-gray-100 text-gray-500 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-xmark"></i></div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-4">
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Undangan Aktif</h3>
+                <div id="dashboard-invitation-list" class="space-y-4">
+                    </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Daftar Log Konfirmasi Kehadiran Tamu (RSVP)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3">Nama Tamu</th>
+                                    <th class="px-4 py-3">Status Konfirmasi</th>
+                                    <th class="px-4 py-3">Jumlah Pax</th>
+                                    <th class="px-4 py-3">Ucapan / Pesan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-rsvp-table">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-editor" class="view max-w-4xl mx-auto px-4 py-10">
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900">Konfigurasi Desain & Informasi Acara</h1>
+            <p class="text-sm text-gray-500">Isi data secara lengkap untuk mempublikasikan halaman undangan digital Anda.</p>
+        </div>
+
+        <form id="editor-form" onsubmit="processPublish(event)" class="space-y-8">
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <h3 class="text-md font-bold text-gray-900 mb-4 flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-rose-500 text-white text-xs flex items-center justify-center">1</span> Pilih Template Desain</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <label class="relative border-2 border-rose-500 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer bg-rose-50/20">
+                        <input type="radio" name="template_choice" value="elegant" checked class="absolute top-3 right-3 accent-rose-500">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-2 text-lg"><i class="fa-solid fa-crown"></i></div>
+                        <span class="block font-bold text-sm">Classic Elegant</span>
+                        <span class="block text-xs text-gray-400 mt-1">Nuansa premium warna cream romantis.</span>
+                    </label>
+                    <label class="relative border border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="template_choice" value="minimalist" class="absolute top-3 right-3 accent-rose-500">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center mb-2 text-lg"><i class="fa-solid fa-leaf"></i></div>
+                        <span class="block font-bold text-sm">Modern Botanical</span>
+                        <span class="block text-xs text-gray-400 mt-1">Gaya minimalis bersih daun hijau.</span>
+                    </label>
+                    <label class="relative border border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="template_choice" value="cheerful" class="absolute top-3 right-3 accent-rose-500">
+                        <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-2 text-lg"><i class="fa-solid fa-cake-candles"></i></div>
+                        <span class="block font-bold text-sm">Bright Festive</span>
+                        <span class="block text-xs text-gray-400 mt-1">Ceria untuk ulang tahun & pesta anak.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm space-y-4">
+                <h3 class="text-md font-bold text-gray-900 mb-2 flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-rose-500 text-white text-xs flex items-center justify-center">2</span> Detail Informasi Acara</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">JUDUL UTAMA / NAMA ACARA</label>
+                        <input type="text" id="event-title" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="Pernikahan Budi & Ani">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">KUSTOMISASI URL SLUG UNIQUE</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-200 text-gray-400 text-xs rounded-l-xl">invitame.com/wedding/</span>
+                            <input type="text" id="event-slug" required class="w-full px-4 py-2 border border-gray-200 rounded-r-xl focus:outline-none focus:border-rose-500" placeholder="budi-ani">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">TANGGAL ACARA</label>
+                        <input type="date" id="event-date" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">JAM MULAI</label>
+                        <input type="time" id="event-time" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">NAMA LOKASI (VENUE)</label>
+                        <input type="text" id="event-venue" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="Gedung Sasana Budaya">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">URL EMBED GOOGLE MAPS (INTEGRASI MAPS)</label>
+                    <input type="text" id="event-maps" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="https://www.google.com/maps/embed?...">
+                    <span class="text-xs text-gray-400 mt-1 block">Masukkan link embed dari menu bagikan peta di Google Maps.</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">URL FOTO UTAMA / BANNER (COVER)</label>
+                        <input type="text" id="event-photo" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="https://images.unsplash.com/photo-...">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">TAUTAN MUSIK LATAR (MP3 / SPOTIFY LINK)</label>
+                        <input type="text" id="event-music" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-500" placeholder="https://open.spotify.com/track/...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button type="button" onclick="navigateTo('dashboard')" class="px-5 py-3 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition">Batal</button>
+                <button type="button" onclick="triggerPreviewMode()" class="px-5 py-3 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition"><i class="fa-solid fa-magnifying-glass"></i> Mode Preview</button>
+                <button type="submit" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-xl shadow transition">Publish Undangan</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="view-invitation-output" class="view min-h-screen bg-stone-100 flex flex-col justify-between relative">
+        <div id="preview-banner" class="bg-amber-500 text-white py-2 px-4 text-center font-semibold text-xs sticky top-0 z-50 flex justify-between items-center hidden">
+            <span><i class="fa-solid fa-eye"></i> Anda berada dalam Mode Preview. Halaman di bawah adalah tampilan yang akan dilihat tamu.</span>
+            <button onclick="exitPreviewMode()" class="bg-black/20 hover:bg-black/40 px-3 py-1 rounded transition">Kembali ke Editor</button>
+        </div>
+
+        <div id="invitation-theme-container" class="max-w-md mx-auto bg-white shadow-xl min-h-screen flex flex-col justify-between border-x border-gray-200">
+            <div class="relative h-64 bg-gray-300">
+                <img id="render-photo" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Cover Undangan">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                    <div>
+                        <span class="text-xs uppercase font-bold tracking-widest text-rose-300">Undangan Spesial</span>
+                        <h2 id="render-title" class="text-2xl font-serif font-bold text-white mt-1">Pernikahan Budi & Ani</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6 flex-grow">
+                <div class="text-center py-4 border-b border-gray-100">
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Waktu & Tempat Pelaksanaan</p>
+                    <p id="render-date-time" class="text-lg font-bold text-gray-800 mt-2">Sabtu, 12 Desember 2026</p>
+                    <p id="render-venue" class="text-sm text-gray-500 mt-1"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> Gedung Sasana Budaya</p>
+                </div>
+
+                <div class="rounded-xl overflow-hidden bg-gray-100 h-40 flex items-center justify-center border border-gray-200 relative">
+                    <div class="text-center p-4">
+                        <i class="fa-solid fa-map-location-dot text-3xl text-gray-400 mb-2"></i>
+                        <span class="block text-xs font-semibold text-gray-600">Peta Lokasi Terintegrasi</span>
+                        <a href="#" id="render-maps-link" target="_blank" class="text-xs text-rose-500 font-semibold underline mt-1 block">Buka Google Maps</a>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-gray-50 rounded-xl flex items-center justify-between text-xs text-gray-500">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-music text-rose-500 animate-spin"></i>
+                        <span id="render-music-name">Memutar Audio Latar...</span>
+                    </div>
+                    <span class="px-2 py-0.5 bg-gray-200 rounded text-[10px] font-mono">LIVE</span>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mt-6">
+                    <h4 class="text-sm font-bold text-gray-900 mb-3 text-center"><i class="fa-solid fa-calendar-check mr-1"></i> Konfirmasi Kehadiran Tamu</h4>
+                    <form id="rsvp-guest-form" onsubmit="submitGuestRSVP(event)" class="space-y-3">
+                        <input type="text" id="rsvp-name" required placeholder="Nama Anda" class="w-full px-3 py-1.5 bg-white border border-gray-200 text-sm rounded-lg focus:outline-none focus:border-rose-500">
+                        <div class="grid grid-cols-2 gap-2">
+                            <select id="rsvp-status" required class="w-full px-3 py-1.5 bg-white border border-gray-200 text-sm rounded-lg focus:outline-none focus:border-rose-500">
+                                <option value="Hadir">Saya Akan Hadir</option>
+                                <option value="Absen">Maaf, Berhalangan</option>
+                            </select>
+                            <input type="number" id="rsvp-pax" min="1" max="5" value="1" placeholder="Jumlah Pax" class="w-full px-3 py-1.5 bg-white border border-gray-200 text-sm rounded-lg focus:outline-none focus:border-rose-500">
+                        </div>
+                        <textarea id="rsvp-notes" placeholder="Tulis ucapan selamat atau pesan..." rows="2" class="w-full px-3 py-1.5 bg-white border border-gray-200 text-sm rounded-lg focus:outline-none focus:border-rose-500"></textarea>
+                        <button type="submit" class="w-full py-2 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-lg transition uppercase tracking-wider">Kirim Konfirmasi</button>
+                    </form>
+                </div>
+            </div>
+
+            <footer class="p-4 bg-gray-50 border-t border-gray-100 text-center text-[10px] text-gray-400">
+                Dibuat secara instan melalui <span class="font-bold text-rose-500">InvitaMe.com</span>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. STATE MANAGEMENT ---
+        let isUserAuthenticated = false;
+        let isAuthViewForLogin = true; 
+        let activeInvitationData = {
+            title: "Pernikahan Budi & Ani",
+            slug: "budi-ani",
+            date: "2026-12-12",
+            time: "09:00",
+            venue: "Gedung Sasana Budaya, Bandung",
+            maps: "https://maps.google.com",
+            photo: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+            music: "Beautiful In White - Shane Filan",
+            template: "elegant"
+        };
+        let rsvpRecords = [
+            { name: "Andi Saputra", status: "Hadir", pax: 2, notes: "Selamat menempuh hidup baru ya!" },
+            { name: "Siti Rahma", status: "Absen", pax: 0, notes: "Maaf belum bisa hadir karena ada tugas ke luar kota." }
+        ];
+
+        // --- 2. NAVIGATION SYSTEMS ---
+        function navigateTo(viewId) {
+            // Sembunyikan seluruh container berkelas view
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            // Tampilkan view target
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) targetView.classList.add('active');
+
+            // Kontrol visibilitas navbar
+            const mainNav = document.getElementById('main-nav');
+            if (viewId === 'invitation-output' && !document.getElementById('preview-banner').classList.contains('hidden')) {
+                mainNav.style.display = 'block'; // Tetap tampil jika hanya preview
+            } else if (viewId === 'invitation-output') {
+                mainNav.style.display = 'none'; // Sembunyikan navbar jika diakses publik (Live Undangan)
+            } else {
+                mainNav.style.display = 'block';
+            }
+
+            // Atur scroll otomatis ke atas
+            window.scrollTo(0, 0);
+        }
+
+        function updateNavbarUI() {
+            if (isUserAuthenticated) {
+                document.getElementById('nav-auth-buttons').classList.add('hidden');
+                document.getElementById('nav-dashboard-buttons').classList.remove('hidden');
+            } else {
+                document.getElementById('nav-auth-buttons').classList.remove('hidden');
+                document.getElementById('nav-dashboard-buttons').classList.add('hidden');
+            }
+        }
+
+        // --- 3. AUTHENTICATION CONTROLLER ---
+        function toggleAuthMode(toLogin) {
+            isAuthViewForLogin = toLogin;
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const toggleText = document.getElementById('auth-toggle-text');
+
+            if (isAuthViewForLogin) {
+                title.innerText = "Masuk ke Akun Anda";
+                subtitle.innerText = "Gunakan email terdaftar untuk mengelola undangan.";
+                toggleText.innerHTML = 'Belum punya akun? <a href="#" onclick="toggleAuthMode(false)" class="text-rose-500 font-semibold">Daftar sekarang</a>';
+            } else {
+                title.innerText = "Pendaftaran Akun Baru";
+                subtitle.innerText = "Buat akun platform self-service Anda gratis.";
+                toggleText.innerHTML = 'Sudah memiliki akun? <a href="#" onclick="toggleAuthMode(true)" class="text-rose-500 font-semibold">Login disini</a>';
+            }
+        }
+
+        function handleAuth(event) {
+            event.preventDefault();
+            isUserAuthenticated = true;
+            updateNavbarUI();
+            renderDashboardData();
+            navigateTo('dashboard');
+        }
+
+        function mockGoogleAuth() {
+            isUserAuthenticated = true;
+            updateNavbarUI();
+            renderDashboardData();
+            navigateTo('dashboard');
+        }
+
+        function logout() {
+            isUserAuthenticated = false;
+            updateNavbarUI();
+            navigateTo('landing');
+        }
+
+        function startCreating() {
+            if (isUserAuthenticated) {
+                navigateTo('editor');
+            } else {
+                toggleAuthMode(false); // Pindahkan ke register view
+                navigateTo('auth');
+            }
+        }
+
+        // --- 4. EDITOR & PREVIEW CONTROLLER ---
+        function populateEditorForm() {
+            document.getElementById('event-title').value = activeInvitationData.title;
+            document.getElementById('event-slug').value = activeInvitationData.slug;
+            document.getElementById('event-date').value = activeInvitationData.date;
+            document.getElementById('event-time').value = activeInvitationData.time;
+            document.getElementById('event-venue').value = activeInvitationData.venue;
+            document.getElementById('event-maps').value = activeInvitationData.maps;
+            document.getElementById('event-photo').value = activeInvitationData.photo;
+            document.getElementById('event-music').value = activeInvitationData.music;
+        }
+
+        function getFormData() {
+            const selectedTemplate = document.querySelector('input[name="template_choice"]:checked').value;
+            return {
+                title: document.getElementById('event-title').value || "Undangan Tanpa Judul",
+                slug: document.getElementById('event-slug').value || "link-unik",
+                date: document.getElementById('event-date').value || "2026-01-01",
+                time: document.getElementById('event-time').value || "00:00",
+                venue: document.getElementById('event-venue').value || "Tempat Pelaksanaan",
+                maps: document.getElementById('event-maps').value || "https://maps.google.com",
+                photo: document.getElementById('event-photo').value || "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+                music: document.getElementById('event-music').value || "Default Background Ambient",
+                template: selectedTemplate
+            };
+        }
+
+        function applyTemplateTheme(template) {
+            const container = document.getElementById('invitation-theme-container');
+            container.className = "max-w-md mx-auto bg-white shadow-xl min-h-screen flex flex-col justify-between border-x border-gray-200";
+            
+            if (template === 'elegant') {
+                container.classList.add('font-serif');
+                document.getElementById('render-title').className = "text-2xl font-serif font-bold text-white mt-1";
+            } else if (template === 'minimalist') {
+                container.classList.add('font-sans', 'tracking-wide');
+                document.getElementById('render-title').className = "text-2xl font-sans font-medium text-emerald-900 mt-1";
+            } else if (template === 'cheerful') {
+                container.classList.add('font-mono');
+                document.getElementById('render-title').className = "text-2xl font-mono font-black text-purple-900 mt-1";
+            }
+        }
+
+        function renderInvitationOutput(data) {
+            document.getElementById('render-title').innerText = data.title;
+            document.getElementById('render-date-time').innerText = `${data.date} | Pukul ${data.time} WIB`;
+            document.getElementById('render-venue').innerHTML = `<i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${data.venue}`;
+            document.getElementById('render-maps-link').href = data.maps;
+            document.getElementById('render-photo').src = data.photo;
+            document.getElementById('render-music-name').innerText = data.music;
+            applyTemplateTheme(data.template);
+        }
+
+        function triggerPreviewMode() {
+            const currentData = getFormData();
+            renderInvitationOutput(currentData);
+            document.getElementById('preview-banner').classList.remove('hidden');
+            navigateTo('invitation-output');
+        }
+
+        function exitPreviewMode() {
+            document.getElementById('preview-banner').classList.add('hidden');
+            navigateTo('editor');
+        }
+
+        function processPublish(event) {
+            event.preventDefault();
+            activeInvitationData = getFormData();
+            document.getElementById('preview-banner').classList.add('hidden');
+            renderDashboardData();
+            alert("Selamat! Undangan digital Anda berhasil dipublish secara publik.");
+            navigateTo('dashboard');
+        }
+
+        // --- 5. DASHBOARD MONITORING DATA ---
+        function renderDashboardData() {
+            // Update Data Statistika
+            document.getElementById('stat-total-invitation').innerText = "1";
+            const hadirCount = rsvpRecords.filter(r => r.status === 'Hadir').reduce((acc, curr) => acc + parseInt(curr.pax || 1), 0);
+            const absenCount = rsvpRecords.filter(r => r.status === 'Absen').length;
+            document.getElementById('stat-total-rsvp-hadir').innerText = hadirCount;
+            document.getElementById('stat-total-rsvp-absen').innerText = absenCount;
+
+            // Render List Undangan Aktif
+            const listContainer = document.getElementById('dashboard-invitation-list');
+            listContainer.innerHTML = `
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm space-y-3">
+                    <div>
+                        <h4 class="font-bold text-gray-950">${activeInvitationData.title}</h4>
+                        <p class="text-xs text-gray-400 mt-0.5">Slug: /wedding/${activeInvitationData.slug}</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <button onclick="viewLiveInvitation()" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-lg transition flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Link</button>
+                        <button onclick="navigateTo('editor')" class="px-3 py-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-medium rounded-lg transition flex items-center gap-1"><i class="fa-solid fa-pen-to-square"></i> Edit Data</button>
+                    </div>
+                </div>
+            `;
+
+            // Render Tabel RSVP
+            const tableBody = document.getElementById('dashboard-rsvp-table');
+            tableBody.innerHTML = '';
+            rsvpRecords.forEach(record => {
+                const badgeClass = record.status === 'Hadir' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-100 text-gray-600 border-gray-200';
+                tableBody.innerHTML += `
+                    <tr class="bg-white border-b border-gray-100 hover:bg-gray-50/50">
+                        <td class="px-4 py-3 font-semibold text-gray-900">${record.name}</td>
+                        <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs font-medium border rounded-full ${badgeClass}">${record.status}</span></td>
+                        <td class="px-4 py-3">${record.pax} Pax</td>
+                        <td class="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">${record.notes || '-'}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function viewLiveInvitation() {
+            renderInvitationOutput(activeInvitationData);
+            navigateTo('invitation-output');
+        }
+
+        // --- 6. GUEST INTERACTION (RSVP LIVE SUBMIT) ---
+        function submitGuestRSVP(event) {
+            event.preventDefault();
+            const gName = document.getElementById('rsvp-name').value;
+            const gStatus = document.getElementById('rsvp-status').value;
+            const gPax = document.getElementById('rsvp-pax').value;
+            const gNotes = document.getElementById('rsvp-notes').value;
+
+            // Push ke state rekam data internal
+            rsvpRecords.unshift({
+                name: gName,
+                status: gStatus,
+                pax: gStatus === 'Hadir' ? parseInt(gPax) : 0,
+                notes: gNotes
+            });
+
+            alert(`Terima kasih ${gName}, konfirmasi RSVP Anda telah dikirimkan ke pemilik acara.`);
+            document.getElementById('rsvp-guest-form').reset();
+            renderDashboardData();
+        }
+
+        // --- 7. INITIALIZATION RUNNER ---
+        window.onload = function() {
+            populateEditorForm();
+            renderDashboardData();
+        };
+    </script>
+</body>
+</html>
